@@ -51,8 +51,8 @@ Cell days[25] = {m1,t1,w1,th1,f1,m2,t2,w2,th2,f2,m3,t3,w3,th3,f3,m4,t4,w4,th4,f4
 
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
-int firstDay = 0;
-int lastDay = 24;
+int firstDayCell = 0;
+int lastDayCell = 24;
 
 void setStatus(Cell cell, Status _status) {
   cell.status = _status;
@@ -62,6 +62,24 @@ void setStatus(Cell cell, Status _status) {
 }
 
 void initialize(DateTime now) {
+  int currentDayOfWeek = now.dayOfTheWeek();
+  int currentDay = now.day();
+
+  int firstDayOfWeek = (currentDayOfWeek - (currentDay - 1)) % 7;
+
+  if (firstDayOfWeek < 0) {
+    firstDayOfWeek += 7;
+  }
+
+  if (firstDayOfWeek == 0 || firstDayOfWeek == 6) {
+    firstDayCell = 0;
+  }
+  else {
+    firstDayCell = firstDayOfWeek - 1;
+  }
+
+  // Add logic for last day
+
   for (Cell cell : days) {
     setStatus(cell, Status::NotIncluded);
   }
